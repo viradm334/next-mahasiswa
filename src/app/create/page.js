@@ -1,8 +1,10 @@
 'use client';
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Create(){
+    const router = useRouter();
     const [formData, setFormData] = useState({
         name: '',
         nim: '',
@@ -36,11 +38,12 @@ export default function Create(){
                     email: '',
                     jurusan: ''
                 });
+                router.push('/');
             }else{
                 alert(`Error: ${data.message}`);
             }
         }catch(err){
-            alert('Terjadi kesalahan. Coba lagi nanti');
+            alert(err);
             console.error(err);
         }
     }

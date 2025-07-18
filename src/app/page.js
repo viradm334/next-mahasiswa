@@ -1,13 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function Home() {
   const [message, setMessage] = useState("");
   const [users, setUsers] = useState([]);
-  const router = useRouter();
 
   async function handleDelete(id) {
     const confirmed = confirm("Anda yakin menghapus mahasiswa?");
@@ -81,12 +79,14 @@ export default function Home() {
                   <td className="border border-gray-300 p-2">{user.email}</td>
                   <td className="border border-gray-300 p-2">{user.jurusan}</td>
                   <td className="border border-gray-300 p-2">
+                    <Link href={`/edit/${user.id}`}>
                     <button
                       type="button"
                       className="py-1.5 px-3 mr-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md cursor-pointer"
                     >
                       Edit
                     </button>
+                    </Link>
                     <button
                       type="button"
                       className="py-1.5 px-3 bg-red-500 hover:bg-red-700 text-white rounded-md cursor-pointer"
