@@ -35,7 +35,7 @@ export default function Login(){
                     email: '',
                     password: ''
                 });
-                router.push('/mahasiswa');
+                router.push('/dashboard');
             }else{
                 alert(`Error: ${data.message}`);
             }

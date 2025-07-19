@@ -1,6 +1,6 @@
 import prisma from "../../../../lib/prisma";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { SignJWT } from "jose";
 import { cookies } from "next/headers";
 
 export async function POST(req) {
@@ -23,17 +23,20 @@ export async function POST(req) {
       JSON.stringify({ message: "Email atau password salah!" }),
       { status: 401 }
     );
-  }
+  };
 
-  const token = jwt.sign(
-    {
-      id: user.id,
-      email: user.email,
-      role: user.role,
-    },
-    process.env.JWT_SECRET,
-    { expiresIn: "1d" }
-  );
+  const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+
+  const token = await new SignJWT({
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  })
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setExpirationTime("1d")
+    .sign(secret);
 
   (await cookies()).set('token', token, {
     httpOnly: true,

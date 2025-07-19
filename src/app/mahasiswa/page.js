@@ -3,11 +3,14 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Navbar from "../components/navbar";
 
-export default function Home() {
+
+export default function Mahasiswa() {
   const router = useRouter();
   const [message, setMessage] = useState("");
   const [users, setUsers] = useState([]);
+  const [user, setUser] = useState(null);
 
   async function handleDelete(id) {
     const confirmed = confirm("Anda yakin menghapus mahasiswa?");
@@ -29,26 +32,15 @@ export default function Home() {
     } catch (err) {
       console.error("Error deleting user:", err);
     }
-  }
+  };
 
-  async function handleLogout(){
-    try{
-      const res = await fetch('/api/logout', {
-        method: 'POST'
+  useEffect(() => {
+    fetch('/api/user')
+      .then(res => res.json())
+      .then(data => {
+        setUser(data.user);
       });
-
-      const data = await res.json();
-
-      if(res.ok){
-        alert(data.message);
-        router.push('/login');
-      }else{
-        alert('Error logout: ', data.message);
-      }
-    }catch(err){
-      console.error("Error logout:", err);
-    }
-  }
+  }, []);
 
   useEffect(() => {
     fetch("/api/get-users")
@@ -62,24 +54,11 @@ export default function Home() {
 
   return (
     <div>
-      <h4 className="text-center text-2xl font-bold mt-3">Daftar Mahasiswa</h4>
+      {user && <Navbar role={user.role} />}
+
+      <h4 className="text-center text-2xl font-bold mt-5">Daftar Mahasiswa</h4>
 
       <div className="container p-10 flex flex-col justify-center items-center">
-        <Link href="/create">
-          <button
-            type="button"
-            className="py-1.5 px-3 mb-3 bg-green-500 hover:bg-green-700 text-white rounded-md cursor-pointer"
-          >
-            Tambah Mahasiswa
-          </button>
-        </Link>
-        <button
-            type="button"
-            className="py-1.5 px-3 mb-3 bg-yellow-500 hover:bg-yellow-700 text-white rounded-md cursor-pointer"
-            onClick={() => handleLogout()}
-          >
-            Logout
-          </button>
         <table className="border-collapse border border-gray-400">
           <thead>
             <tr>
