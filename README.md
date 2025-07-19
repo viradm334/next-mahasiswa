@@ -18,6 +18,11 @@ Berikut adalah halaman yang tersedia dalam aplikasi ini:
 - /mahasiswa: halaman untuk melihat data seluruh mahasiswa.
 - /edit/[:id]: untuk mengubah data mahasiswa.
 
+Fitur ekstra:
+
+- Login dengan google tanpa password (simulasi)
+- Logging komentar dengan websocket
+
 ## Cara Menjalankan Aplikasi
 
 1. Install package NPM dengan command berikut:

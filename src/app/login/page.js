@@ -45,6 +45,26 @@ export default function Login(){
         }
     }
 
+    const loginGoogle = async () => {
+      try{
+        const res = await fetch('/api/login-google', {
+          method: 'POST'
+        });
+
+        const data = await res.json();
+
+        if(res.ok){
+          alert(data.message);
+          router.push('/dashboard')
+        }else{
+          alert('Error: ', data.message);
+        }
+      }catch(err){
+        alert(err);
+        console.error(err);
+      }
+    }
+
     return(
         <div className="max-w-md mx-auto mt-8 bg-white rounded-lg shadow-lg p-6">
         <h2 className="text-xl font-bold text-center mb-4">Login</h2>
@@ -81,11 +101,14 @@ export default function Login(){
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 cursor-pointer"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200 cursor-pointer mb-5"
           >
             Login
           </button>
         </form>
+        <button type="button" className="flex items-center justify-center gap-2 w-full bg-transparent border-gray-400 hover:bg-gray-400 hover:text-white hover:outline-none border-1 rounded-md py-2 px-4 cursor-pointer text-slate-500 font-semibold" onClick={() => {loginGoogle()}}>
+            <img src="google.svg" alt="Google" className="w-5 h-5"></img>
+            Login dengan Google</button>
       </div>
       )
 }
