@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from 'next/navigation'
+import Navbar from "@/app/components/navbar";
 
-export default function Create() {
+export default function Edit() {
   const { id } = useParams();
   const router = useRouter();
+  const [user, setUser] = useState(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -28,6 +30,14 @@ export default function Create() {
         });
     }
   }, [id]);
+
+  useEffect(() => {
+    fetch('/api/user')
+      .then(res => res.json())
+      .then(data => {
+        setUser(data.user);
+      });
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -55,7 +65,7 @@ export default function Create() {
           email: "",
           jurusan: "",
         });
-        router.push('/');
+        router.push('/mahasiswa');
       } else {
         alert(`Error: ${data.message}`);
       }
@@ -66,6 +76,8 @@ export default function Create() {
   };
 
   return (
+    <div>
+      {user && <Navbar role={user.role} />}
     <div className="max-w-md mx-auto mt-8 bg-white rounded-lg shadow-lg p-6">
       <h2 className="text-xl font-bold text-center mb-4">
         Edit Data Mahasiswa
@@ -91,7 +103,7 @@ export default function Create() {
             type="text"
             placeholder="NIM"
             name="nim"
-            value={formData.nim}
+            value={formData.nim || ''}
             onChange={handleChange}
             required
           />
@@ -119,7 +131,7 @@ export default function Create() {
             type="text"
             placeholder="Masukkan jurusan"
             name="jurusan"
-            value={formData.jurusan}
+            value={formData.jurusan || ''}
             onChange={handleChange}
             required
           />
@@ -131,6 +143,7 @@ export default function Create() {
           Submit
         </button>
       </form>
+    </div>
     </div>
   );
 }

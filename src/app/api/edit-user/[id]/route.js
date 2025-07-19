@@ -4,7 +4,7 @@ export async function PUT(req, {params}){
     try{
         const {id} = await params;
         const body = await req.json();
-        const {name, nim, email, jurusan} = body;
+        const {name, nim, email, jurusan, nip} = body;
 
         const updated = await prisma.user.update({
             where: {id: Number(id)},
@@ -12,11 +12,12 @@ export async function PUT(req, {params}){
                 name, 
                 nim,
                 email, 
-                jurusan
+                jurusan,
+                nip
             }
         });
 
-        return Response.json({message: 'Berhasil mengubah data mahasiswa!', data: updated});
+        return Response.json({message: 'Berhasil mengubah data user!', data: updated});
     }catch(err){
         return new Response(
             JSON.stringify({ message: err.message }),
