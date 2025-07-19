@@ -8,8 +8,13 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "dependencies": {
     "@prisma/client": "^6.12.0",
+    "bcrypt": "^6.0.0",
+    "jsonwebtoken": "^9.0.2",
     "next": "15.4.1",
     "react": "19.1.0",
     "react-dom": "19.1.0"
