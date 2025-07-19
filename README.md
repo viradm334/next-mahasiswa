@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Aplikasi Mahasiswa
 
-## Getting Started
+Aplikasi dibuat untuk sebagai sistem manajemen data mahasiswa.
 
-First, run the development server:
+## Fitur yang tersedia
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Ada dua jenis user dalam aplikasi ini:
+
+- Dosen: dapat mengakses data seluruh mahasiswa, edit data mahasiswa, dan menghapus data mahasiswa.
+- Mahasiswa: dapat mengubah biodatanya sendiri.
+
+Berikut adalah halaman yang tersedia dalam aplikasi ini:
+
+- /: landing page untuk pengunjung website
+- /register: halaman untuk mendaftarkan akun baru, baik itu menjadi dosen atau mahasiswa.
+- /login: halaman autentikasi untuk mengakses fitur tertentu.
+- /dashboard: halaman untuk yang dikunjungi setelah berhasil login.
+- /mahasiswa: halaman untuk melihat data seluruh mahasiswa.
+- /edit/[:id]: untuk mengubah data mahasiswa.
+
+## Cara Menjalankan Aplikasi
+
+1. Install package NPM dengan command berikut:
+
+ ```powershell
+   npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Copy isi file dari .env.example ke dalam file .env.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+ ```powershell
+   cp env.example .env
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Projek ini menggunakan Prisma sebagai ORM. Untuk variabel DATABASE_URL pada .env bisa diisi dengan url seperti di bawah (contoh berikut menggunakan MySQL sebagai databasenya, silahkan disesuaikan dengan preferensi masing-masing). Isi juga JWT_SECRET sesuai dengan keinginan.
 
-## Learn More
+ ```powershell
+   DATABASE_URL="mysql://<db_user>:<db_password>@<db_host>:<db_port>/<db_name>"
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Generate Prisma Client
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+ ```powershell
+   npx prisma generate
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+5. Migrate database
 
-## Deploy on Vercel
+ ```powershell
+   npx prisma migrate deploy
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+6. Jalankan aplikasi
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+ ```powershell
+   npm run dev
+```
+
+## Security Notes
+
+Aplikasi ini diamankan dengan middleware berbasis role. Jika user mengakses halaman yang diproteksi ketika dia belum login, maka ia akan diarahkan untuk login dan tidak bisa mengakses halaman tersebut sebelum dia berhasil login. Lalu, ada jika ada user yang telah berhasil login dan ia mencoba mengakses halaman dimana dia tidak memiliki akses terhadapnya, maka akan muncul halaman Error 401 Unauthorized. Lalu setiap password yang dimasukkan ke dalam aplikasi akan dihash dan diberi salt untuk menjamin keamanannya supaya tidak bisa dilihat siapapun. Untuk melindungi dari serangan XSS maka token untuk login disimpan dalam cookies HTTP-Only. Untuk melindungi dari SQL Injection maka setiap interaksi dengan database dilakukan menggunakan Prisma Client API yang menggunakan parameterized query, yang berarti memisahkan kode SQL dari data yang diberikan user.
