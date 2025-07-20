@@ -8,7 +8,7 @@ const roleRoutes = {
 
 export async function middleware(req){
     const token = req.cookies.get('token')?.value;
-    console.log("Token from cookie:", token);
+    // console.log("Token from cookie:", token);
     const pathname = req.nextUrl.pathname;
 
     const matchesRole = Object.keys(roleRoutes).find(route => pathname.startsWith(route));

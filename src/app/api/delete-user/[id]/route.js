@@ -8,7 +8,11 @@ export async function DELETE(req, {params}){
       where: {
          id: Number(id)
       }
-    })
+    });
+
+    if (global._io) {
+      global._io.emit('log', 'Student deleted');
+    }
 
     return Response.json({message: 'Mahasiswa berhasil dihapus!'});
  }catch(err){
