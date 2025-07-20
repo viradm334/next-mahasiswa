@@ -46,12 +46,10 @@ export default function Navbar({role}) {
               <ClipboardDocumentListIcon className="size-6 text-white" />
               <Link href='/mahasiswa' className="flex items-center">Mahasiswa</Link>
             </li>)}
-            <li className="flex items-center p-1 text-sm gap-x-2 text-white">
+            {role === 'MAHASISWA' && (<li className="flex items-center p-1 text-sm gap-x-2 text-white">
               <UserCircleIcon className="size-6 text-white" />
-              <a href="#" className="flex items-center">
-                Profil
-              </a>
-            </li>
+              <Link href='/biodata' className="flex items-center">Biodata</Link>
+            </li>)}
             <li className="flex items-center p-1 text-sm gap-x-2 text-white">
               <ArrowRightStartOnRectangleIcon className="size-6 text-white" />
               <button
