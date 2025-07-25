@@ -2,6 +2,7 @@ import prisma from "../../../../lib/prisma";
 import bcrypt from "bcrypt";
 import { cookies } from "next/headers";
 import { SignJWT } from "jose";
+import logger from "@/utils/logger";
 
 export async function POST(req) {
   const hashedPassword = await bcrypt.hash("google123", 10);
@@ -42,6 +43,8 @@ export async function POST(req) {
     sameSite: "lax",
     maxAge: 60 * 60 * 24,
   });
+
+  logger.info('User signed with Google');
 
   return new Response(JSON.stringify({ message: "Login dengan google berhasil!" }), {
     status: 200,

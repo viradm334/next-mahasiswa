@@ -1,7 +1,8 @@
 import prisma from "../../../../lib/prisma";
 import bcrypt from "bcrypt";
-import { SignJWT } from "jose";
 import { cookies } from "next/headers";
+import { createJWT } from "../../../../lib/jwt";
+import logger from "@/utils/logger";
 
 export async function POST(req) {
   const body = await req.json();
@@ -25,25 +26,22 @@ export async function POST(req) {
     );
   };
 
+  logger.info(`User ${user.id} logged in`);
   const secret = new TextEncoder().encode(process.env.JWT_SECRET);
 
-  const token = await new SignJWT({
+  const token = await createJWT({
     id: user.id,
     name: user.name,
     email: user.email,
     role: user.role,
-  })
-    .setProtectedHeader({ alg: "HS256" })
-    .setIssuedAt()
-    .setExpirationTime("1d")
-    .sign(secret);
+  }, secret);
 
   (await cookies()).set('token', token, {
     httpOnly: true,
     path: '/',
     sameSite: 'lax',
     maxAge: 60 * 60 * 24
-  })
+  });
 
   return new Response(JSON.stringify({message: 'Login berhasil!'}), {status: 200, headers: {'Content-Type': 'application/json'}});
 }

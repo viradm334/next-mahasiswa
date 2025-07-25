@@ -1,3 +1,4 @@
+import logger from '@/utils/logger';
 import prisma from '../../../../../lib/prisma';
 
 export async function PUT(req, {params}){
@@ -17,8 +18,11 @@ export async function PUT(req, {params}){
             }
         });
 
+        logger.info(`User ${id} data has been updated`);
+
         return Response.json({message: 'Berhasil mengubah data user!', data: updated});
     }catch(err){
+        logger.error(`Error updating data: ${err.message}`);
         return new Response(
             JSON.stringify({ message: err.message }),
             { status: 500, headers: { 'Content-Type': 'application/json' } }

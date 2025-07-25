@@ -1,3 +1,4 @@
+import logger from '@/utils/logger';
 import prisma from '../../../../lib/prisma';
 import bcrypt from 'bcrypt';
 
@@ -14,8 +15,10 @@ export async function POST(req){
                 role
             }
         });
+        logger.info(`New user has been registered`);
         return Response.json({message: 'Berhasil membuat akun!', data: user});
     }catch(err){
+        logger.error(`Failed to register user: ${err.message}`);
         return new Response(
             JSON.stringify({ message: err.message }),
             { status: 500, headers: { 'Content-Type': 'application/json' } }

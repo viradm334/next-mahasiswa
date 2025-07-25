@@ -1,3 +1,4 @@
+import logger from '@/utils/logger';
 import prisma from '../../../../../lib/prisma';
 
 export async function GET(req, {params}){
@@ -9,7 +10,10 @@ export async function GET(req, {params}){
             }
         });
 
+        logger.info(`Succesfully fetched user ${id} data`);
+
         if(!user){
+            logger.info(`User fetching data failed: user not found`);
             return new Response(
                 JSON.stringify({ message: 'Data mahasiswa tidak ditemukan!' }),
                 { status: 404, headers: { 'Content-Type': 'application/json' } }
@@ -18,7 +22,7 @@ export async function GET(req, {params}){
 
         return Response.json({message: 'Berhasil mengambil data mahasiswa!', data: user});
     }catch(err){
-        console.error(err.message);
+        logger.error(`Error fetching user data: ${err.message}`);
         return new Response(
             JSON.stringify({ message: err.message }),
             { status: 500, headers: { 'Content-Type': 'application/json' } }
