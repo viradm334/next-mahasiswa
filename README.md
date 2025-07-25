@@ -77,8 +77,20 @@ https://drive.google.com/file/d/1YIVVoSsPBfib2OLH99b5BvJbKc-C2mhk/view?usp=shari
 
 ## Langkah Pengamanan
 
-Untuk mengamankan aplikasi dari SQL injection saya menggunakan parameterized query yang sudah dihandle oleh Prisma. Dengan menggunakan fungsi bawaan model misalnya ada script masuk maka akan diperlakukan seperti string biasa. Lalu untuk mengamankan dari serangan CSRF saya membuat cookie JWT token melakukan origin checking dengan menyematkan atribut sameSite: 'Strict' dan juga HTTPOnly: true. Kemudian juga untuk setiap data yang ditampilkan dari database, React secara otomatis akan meng-escape karakter yang berbahaya, misalkan ada data berupa tag HT<L>
+Untuk mengamankan aplikasi dari SQL injection saya menggunakan parameterized query yang sudah dihandle oleh Prisma. Dengan menggunakan fungsi bawaan model misalnya ada script masuk maka akan diperlakukan seperti string biasa. Lalu untuk mengamankan dari serangan CSRF saya membuat cookie JWT token melakukan origin checking dengan menyematkan atribut sameSite: 'Strict' dan juga HTTPOnly: true. Kemudian juga untuk setiap data yang ditampilkan dari database, React secara otomatis akan meng-escape karakter yang berbahaya, misalkan ada data berupa tag HTML tidak akan dirender sebagai HTML, tetapi sebagai string biasa.
 
 ## Tantangan
 
 Tantangan yang saya hadapi adalah ketika konfigurasi Grafana karena portnya bertabrakan dengan port aplikasi ini, saya selesaikan dengan membuat custom.ini untuk menyesuaikan portnya dengan yang tersedia. Pada saat membuat unit test juga terdapat kesulitan karena ada library yang tidak kompatibel dengan unit test dan ada masalah dengan babel, itu diselesaikan dengan membuat babel.jest.config.js.
+
+## Testing
+
+Berikut adalah unit testing yang telah dilakukan, untuk file selengkapnya bisa dicek di folder `__tests__`:
+
+1. create.test.js (Pass)
+2. delete.test.js (Pass)
+3. edit.test.js (Pass)
+4. get_users.test.js (Pass)
+5. login.test.js (Pass)
+
+Ada kesulitan saat test ini karena library Jose untuk verifikasi token JWT, tapi hal itu diatasi dengan membuat jest.config.js dan babel.jest.config.js
