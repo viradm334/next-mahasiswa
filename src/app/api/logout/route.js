@@ -6,7 +6,7 @@ export async function POST(req){
     (await cookies()).set('token', '', {
         httpOnly: true,
         path: '/',
-        sameSite: 'lax',
+        sameSite: 'Strict',
         maxAge: 0
     });
     logger.info('User logged out');

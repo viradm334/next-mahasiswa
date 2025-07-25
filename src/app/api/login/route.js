@@ -39,7 +39,7 @@ export async function POST(req) {
   (await cookies()).set('token', token, {
     httpOnly: true,
     path: '/',
-    sameSite: 'lax',
+    sameSite: 'Strict',
     maxAge: 60 * 60 * 24
   });
 
