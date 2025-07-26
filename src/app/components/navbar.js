@@ -4,6 +4,7 @@ import {
   ArrowRightStartOnRectangleIcon,
   ClipboardDocumentListIcon,
   UserCircleIcon,
+  VideoCameraIcon
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -49,7 +50,13 @@ export default function Navbar({role}) {
             {role === 'MAHASISWA' && (<li className="flex items-center p-1 text-sm gap-x-2 text-white">
               <UserCircleIcon className="size-6 text-white" />
               <Link href='/biodata' className="flex items-center">Biodata</Link>
-            </li>)}
+            </li>
+          )}
+            {role === 'MAHASISWA' && (<li className="flex items-center p-1 text-sm gap-x-2 text-white">
+              <VideoCameraIcon className="size-6 text-white" />
+              <Link href='/create-video' className="flex items-center">Video</Link>
+            </li>
+          )}
             <li className="flex items-center p-1 text-sm gap-x-2 text-white">
               <ArrowRightStartOnRectangleIcon className="size-6 text-white" />
               <button

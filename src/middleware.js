@@ -4,7 +4,9 @@ import { jwtVerify } from "jose";
 const roleRoutes = {
     '/dashboard': ['DOSEN', 'MAHASISWA'],
     '/mahasiswa': 'DOSEN',
-    '/biodata' : 'MAHASISWA'
+    '/biodata' : 'MAHASISWA',
+    '/create-video': 'MAHASISWA',
+    '/update-video': 'MAHASISWA'
 }
 
 export async function middleware(req){
@@ -42,7 +44,9 @@ export const config = {
     matcher: [
       '/dashboard/:path*',
       '/mahasiswa/:path*',
-      '/biodata/:path*'
+      '/biodata/:path*',
+      '/create-video/:path*',
+      '/update-video/:path*',
     ],
   };
 
