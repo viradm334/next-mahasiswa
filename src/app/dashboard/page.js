@@ -58,11 +58,13 @@ export default function Dashboard() {
           </h1>
           {videos.map((video, index) => (
             <div key={index} className="max-w-sm mx-auto mt-8 bg-white rounded-lg shadow-md p-4">
-            <h3 className="text-base font-semibold mb-3">{video.title}</h3>
-            <div
-              className="w-full h-48 mb-4 overflow-hidden rounded-md"
-              dangerouslySetInnerHTML={{ __html: video.link }}
-            />
+            <h3 className="text-base font-semibold mb-2">{video.title}</h3>
+            <h3 className="text-base font-medium mb-3">Owner: {video.user.name}</h3>
+            <iframe
+              src={`https://www.youtube.com/embed/${video.link}`}
+              className="w-full h-48 rounded-md mb-5"
+              allowFullScreen
+            ></iframe>
             
             {video.userId === user.id && (
               <div className="flex items-center gap-2 text-gray-700">

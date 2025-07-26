@@ -101,7 +101,7 @@ const { id } = useParams();
                 <input
                   className="w-full border border-blue-500 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                   type="text"
-                  placeholder="Masukkan link youtube video"
+                  placeholder="Masukkan link iframe youtube video"
                   name="link"
                   value={formData.link}
                   onChange={handleChange}

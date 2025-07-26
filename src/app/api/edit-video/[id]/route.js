@@ -2,6 +2,10 @@ import logger from '@/utils/logger';
 import prisma from '../../../../../lib/prisma';
 
 export async function PUT(req, {params}){
+    function extractYouTubeId(iframeHtml) {
+        const match = iframeHtml.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/);
+        return match ? match[1] : null;
+      }
     try{
         const {id} = await params;
         const body = await req.json();
@@ -11,7 +15,7 @@ export async function PUT(req, {params}){
             where: {id: Number(id)},
             data: {
                 title,
-                link
+                link: extractYouTubeId(link)
             }
         });
 

@@ -2,13 +2,18 @@ import logger from '@/utils/logger';
 import prisma from '../../../../lib/prisma';
 
 export async function POST(req){
+    function extractYouTubeId(iframeHtml) {
+        const match = iframeHtml.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/);
+        return match ? match[1] : null;
+      }
+
     try{
         const body = await req.json();
         const {title, link, userId} = body;
         const video = await prisma.video.create({
             data: {
                 title,
-                link,
+                link: extractYouTubeId(link),
                 userId: Number(userId)
             }
         });
