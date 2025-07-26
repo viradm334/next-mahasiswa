@@ -93,4 +93,44 @@ Berikut adalah unit testing yang telah dilakukan, untuk file selengkapnya bisa d
 4. get_users.test.js (Pass)
 5. login.test.js (Pass)
 
+Untuk langkah-langkah yang dilakukan dalam melakukan test, dimulai dari install library yang diperlukan, seperti jest dan node-mocks-http. Kemudian dilanjut dengan mocking keadaan yang ingin dibuat simulasi, seperti membuat user, lalu mocking fungsi, running fungsi yang dites dan expect hal-hal yang menjadi keadaan yang ditargetkan, seperti status code dan hasil dari operasi dengan database kalau ada. 
+
 Ada kesulitan saat test ini karena library Jose untuk verifikasi token JWT, tapi hal itu diatasi dengan membuat jest.config.js dan babel.jest.config.js
+
+## Link Deploy Aplikasi
+
+https://next-mahasiswa.vercel.app/
+
+## Catatan Tambahan
+
+Ditambahkan fitur upload video youtube dengan link iframe embed dari youtube. Berikut adalah contoh kode testing pada create.test.js.
+
+ ```js
+   jest.mock('../../lib/prisma', () => ({
+    __esModule: true,
+    default: {
+      user: {
+        create: jest.fn(),
+      },
+    },
+  }));
+
+  it('should return 500 on error', async () => {
+    prisma.user.create.mockRejectedValue(new Error('Database error'));
+
+    const req = {
+      json: async () => ({
+        name: 'Jane',
+        email: 'jane@example.com',
+        password: '654321',
+        role: 'MAHASISWA',
+      }),
+    };
+
+    const res = await POST(req);
+    const json = await res.json();
+
+    expect(res.status).toBe(500);
+    expect(json.message).toBe('Database error');
+  });
+```
